@@ -1,0 +1,27 @@
+﻿@model bloodbank.Models.CenterDetails
+@using System.Data
+@{
+    ViewBag.Title = "Home Page";
+}
+<div>
+    <div>
+        <br />
+        <br />
+    </div>
+    @foreach (DataRow row in Model.dt.Rows)
+    {
+        <div class="row">
+            <div class="col-md-12" style="background-color:white; text-align: center;">
+                <p>
+                    <a href="/Home/UserReport?id=@row["id"]"@*onclick="location.href='@Url.Action("UserReport","Home" ,new {id = @row["id"]})'"*@><h2>@row["Center_Name"]</h2></a>
+                </p>
+                <p>
+                    <h5>@row["Address"]</h5>
+                </p>
+            </div>
+        </div>
+        <div>
+            <br />
+        </div>
+    }
+</div>
