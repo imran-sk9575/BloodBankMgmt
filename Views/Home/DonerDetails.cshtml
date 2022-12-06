@@ -1,0 +1,61 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "DonorDetails";
+}
+
+<h2>Donor Report</h2>
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table style="width:100%">
+        <tr>
+            <th>Donate Date</th>
+            <th>Blood Grop</th>
+            <th>Email</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (DataRow row in Model.dt.Rows)
+        {
+            <tr>
+                <td>
+                    @{
+                        var i = Convert.ToDateTime(row["DonateDate"]).ToString("dd-MM-yyyy");
+                    }
+                    @i
+                </td>
+                <td>@row["BloodGrop"]</td>
+                <td>@row["email"]</td>
+                <td>
+                    @if (row["CanStatus"].ToString() == "CANCELED")
+                    {
+                        @row["CanStatus"]
+                    }
+                    else if (row["CanStatus"].ToString() == "Y")
+                    {
+                        <button type="button" style="background-color: #d1d0f9" onclick="location.href='@Url.Action("Cancel","Home",new {id = @row["id"]})'"><span>Cancel Appointment</span></button>
+                    }
+                    else
+                    {
+                        <button type="button" style="background-color: #d1d0f9" disabled><span>Cancel Appointment</span></button>
+                    }
+                </td>
+                <td>
+                    <button type="button" style="background-color: #d1d0f9" onclick="location.href='@Url.Action("DeatailReport","Home",new {id = @row["id"]})'"><span>Detail Report</span></button>
+                </td>
+            </tr>
+        }
+    </table>
+<div class="row">
+    <div class="col-md-12" style="text-align:center">
+        <button type="button" style="background-color: #d1d0f9; width: 200px;" onclick="location.href='@Url.Action("LoginData","Home")'"><span>Back</span></button>
+    </div>
+</div>
+</body>
+</html>

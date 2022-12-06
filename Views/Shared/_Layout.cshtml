@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<HEAD>
+    <TITLE>Welcome</TITLE>
+    <link href="bloodbank.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /*import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');*/
+        nav {
+            padding-left: 100px !important;
+            padding-right: 100px !important;
+            background: #000000; /* #d1d0f9;*/
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            text-align: center;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            font-weight: 600;
+        }
+
+        button a {
+            color: #d1d0f9;
+            font-weight: 500;
+        }
+
+        nav a.navbar-brand {
+            color: #fff;
+            font-size: 30px !important;
+            font-weight: 500;
+        }
+
+        button a:hover {
+            text-decoration: none;
+        }
+    </style>
+</HEAD>
+<BODY style="background-image: url('../../bloodbank.jpg');">
+    <nav class="navbar" style="background-color: yellowgreen;">
+        @*<a class="navbar-brand" href="Home/DonerDetails">Blood Donate Details</a>*@
+        @Html.ActionLink("Blood Donate Details", "DonerDetails", "Home", new{ @class="navbar-brand" })
+        <button type="button" class="btn btn-light" onclick="location.href='@Url.Action("Logout","Home")'">Logout</button>
+    </nav>
+    @*<div class="Bloodbank-container" style="text-align:right;">
+            <div class="page-header">
+                <span class="login-signup"><a href="Home/Logout">Logout</a></span>
+            </div>
+        </div>*@
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</BODY>
+</html>

@@ -1,0 +1,143 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "DeatailReport";
+}
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12" style="text-align:center">
+        <h2>Donor Detail Report</h2>
+    </div>
+</div>
+@foreach (DataRow row in Model.dt.Rows)
+{
+    <div class="row">
+        <table style="width:100%">
+            <tr>
+                @{
+                    var i = Convert.ToDateTime(row["CREATE_AT"]).ToString("dd-MM-yyyy");
+                }
+                <td style="width:600px; text-align:center;">
+                    <h4>User Created Date :</h4>
+                </td>
+                <td style="width:600px; text-align:center;">
+                    <h4>@i</h4>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:600px; text-align:center;">
+                    <h4>Email : </h4>
+                </td>
+                <td style="width:600px; text-align:center;">
+                    <h4>@row["EMAIL"]</h4>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:600px; text-align:center;">
+                    <h4>Blood Group : </h4>
+                </td>
+                <td style="width:600px; text-align:center;">
+                    <h4>@row["BLOODGROP"]</h4>
+
+                </td>
+            </tr>
+            <tr>
+                <td style="width:600px; text-align:center;">
+                    @{
+                        var j = Convert.ToDateTime(row["DONATEDATE"]).ToString("dd-MM-yyyy");
+                    }
+                    <h4>Donate Date : </h4>
+                </td>
+                <td style="width:600px; text-align:center;">
+                    <h4>@j</h4>
+                    <input type="hidden" name="hdnDate" id="hdnDate" value=@j>
+                    <input type="hidden" name="hdnUser" id="hdnUser" value=@row["username"]>
+                    <input type="hidden" name="hdnId" id="hdnId" value=@row["ID"]>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:600px; text-align:center;">
+                    <h4>Reason :</h4>
+                </td>
+                <td style="width:600px; text-align:center;">
+                    <h4> @row["REASON"]</h4>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:600px; text-align:center;">
+                    <h4>Supervisor Dr. : </h4>
+                </td>
+                <td style="width:600px; text-align:center;">
+                    <h4>@row["SUPERVISOR"]</h4>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:600px; text-align:center;">
+                    <h4>Unit : </h4>
+                </td>
+                <td style="width:600px; text-align:center;">
+                    <h4>@row["UNIT"]</h4>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:600px; text-align:center;">
+                    <h4>Blood Donate Center :</h4>
+                </td>
+                <td style="width:600px; text-align:center;">
+                    <h4> @row["CENTER_NAME"]</h4>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:600px; text-align:center;">
+                    <h4>Center Address : </h4>
+                </td>
+                <td style="width:600px; text-align:center;">
+                    <h4>@row["ADDRESS"]</h4>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+<br />
+<div class="row">
+    <div class="col-md-12" style="text-align:center">
+        <button type="button" style="background-color: #d1d0f9; width: 200px;" onclick="location.href='@Url.Action("LoginData","Home")'"><span>Back</span></button>
+        <button type="button" style="background-color: #d1d0f9; width: 200px;" id="txtDownload"><span>Download Certificate</span></button>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    $("#txtDownload").click(function () {
+        var obj = {};
+        obj.Date = $('#hdnDate').val();
+        obj.User = $('#hdnUser').val();
+        obj.Id = $('#hdnId').val();
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify(obj),
+            traditional: true,
+            async: false,
+            cache: false,
+            url: "/Home/Download",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                if (response == "Certificate is not Exist.") {
+                    alert(response);
+                    return;
+                }
+                else {
+                    window.location.href = response;
+                }
+            },
+            error: function (response) {
+                alert("Error while Log in the Application");
+            }
+        });
+    });
+</script>
+
